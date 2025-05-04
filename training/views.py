@@ -1,0 +1,160 @@
+from django.shortcuts import render, redirect, get_object_or_404
+from django.core.files.storage import FileSystemStorage
+from django.contrib.auth.decorators import login_required
+from django.conf import settings
+from accounts.views import student_required, teacher_required
+from accounts.models import Teacher, Student
+from .models import Class
+from modules.face_detection import detect_faces
+from modules.train import train
+from pathlib import Path
+import os
+import glob
+from django.contrib import messages
+
+
+# Define paths
+UPLOAD_DIR = Path(settings.MEDIA_ROOT) / 'uploads'
+FACES_DIR = Path(settings.MEDIA_ROOT) / 'faces'
+MODELS_DIR = Path(settings.MEDIA_ROOT) / 'models'
+TRAIN_DIR = Path(settings.MEDIA_ROOT) / 'train'
+
+
+# Ensure directories exist
+os.makedirs(UPLOAD_DIR, exist_ok=True)
+os.makedirs(FACES_DIR, exist_ok=True)
+os.makedirs(MODELS_DIR, exist_ok=True)
+os.makedirs(TRAIN_DIR, exist_ok=True)
+
+
+@login_required
+@teacher_required
+def detect_faces_view(request, class_id):
+    teacher = request.user.teacher
+    class_obj = get_object_or_404(Class, id=class_id)
+    if not teacher.classes.filter(id=class_id).exists():
+        messages.error(request, "You are not assigned to this class.")
+        return render(request, 'error.html', {'message': 'You are not assigned to this class.', 'class_id': class_id})
+
+    if request.method == 'POST':
+        uploaded_files = request.FILES.getlist('images')
+        if not uploaded_files:
+            messages.error(request, "Please upload at least one image.")
+            return render(request, 'detect_faces.html', {'class_obj': class_obj})
+
+        # Validate file types
+        for file in uploaded_files:
+            if not file.content_type.startswith('image/'):
+                messages.error(request, f"File '{file.name}' is not a valid image.")
+                return render(request, 'detect_faces.html', {'class_obj': class_obj})
+
+        fs = FileSystemStorage(location=UPLOAD_DIR)
+        uploaded_filenames = []
+
+        # Save uploaded images
+        for file in uploaded_files:
+            filename = fs.save(file.name, file)
+            uploaded_filenames.append(filename)
+
+        # Process each uploaded image for face detection
+        for idx, filename in enumerate(uploaded_filenames):
+            image_path = UPLOAD_DIR / filename
+            detect_faces(image_path, FACES_DIR, j=idx)
+
+        # Clean up uploaded images
+        for filename in uploaded_filenames:
+            (UPLOAD_DIR / filename).unlink(missing_ok=True)
+
+        messages.success(request, "Faces detected successfully.")
+        return redirect('label_faces', class_id=class_id)
+
+    return render(request, 'detect_faces.html', {'class_obj': class_obj})
+
+
+@login_required
+@teacher_required
+def label_faces_view(request, class_id):
+    teacher = request.user.teacher
+    class_obj = get_object_or_404(Class, id=class_id)
+    if not teacher.classes.filter(id=class_id).exists():
+        messages.error(request, "You are not assigned to this class.")
+        return render(request, 'error.html', {'message': 'You are not assigned to this class.', 'class_id': class_id})
+
+    students = Student.objects.filter(class_batch=class_obj).select_related('user')
+    student_names = [student.user.username for student in students] + ['Unknown']
+    face_images = [Path(img).name for img in glob.glob(str(FACES_DIR / '*.jpg'))]
+    selected_labels = {}
+
+    if request.method == 'POST':
+        # Handle form submission for labeling
+        for key, label in request.POST.items():
+            if key.startswith('face_') and label in student_names:
+                selected_labels[key] = label
+
+        # Check for at least one valid student selection
+        has_valid_selection = any(label != 'Unknown' for key, label in selected_labels.items() if key.startswith('face_'))
+
+        if not has_valid_selection:
+            messages.error(request, "Please select at least one student for labeling (excluding Unknown).")
+            return render(request, 'label_faces.html', {
+                'face_images': face_images,
+                'student_names': student_names,
+                'class_obj': class_obj,
+                'selected_labels': selected_labels,
+            })
+
+        # Move labeled faces to media/train/<student_username>
+        for key, label in selected_labels.items():
+            if key.startswith('face_') and label != 'Unknown':
+                face_filename = key.replace('face_', '', 1)
+                face_path = FACES_DIR / face_filename
+                student_dir = TRAIN_DIR / label
+                os.makedirs(student_dir, exist_ok=True)
+                os.rename(face_path, student_dir / face_filename)
+
+        # Clean up remaining face images
+        for face_image in face_images:
+            (FACES_DIR / face_image).unlink(missing_ok=True)
+
+        messages.success(request, "Faces labeled successfully.")
+        return redirect('train_model', class_id=class_id)
+
+    return render(request, 'label_faces.html', {
+        'face_images': face_images,
+        'student_names': student_names,
+        'class_obj': class_obj,
+        'selected_labels': selected_labels,
+    })
+
+
+@login_required
+@teacher_required
+def train_model_view(request, class_id):
+    teacher = request.user.teacher
+    class_obj = get_object_or_404(Class, id=class_id)
+    if not teacher.classes.filter(id=class_id).exists():
+        messages.error(request, "You are not assigned to this class.")
+        return render(request, 'error.html', {'message': 'You are not assigned to this class.', 'class_id': class_id})
+
+    if not TRAIN_DIR.exists():
+        messages.error(request, "No labeled data found for this batch.")
+        return render(request, 'error.html', {'message': 'No labeled data found for this batch.', 'class_id': class_id})
+
+    # Call the train function
+    batch_name = str(class_obj)
+    train_acc, train_loss = train(batch_name, str(TRAIN_DIR))
+
+    # Clean up images for this class
+    for image in UPLOAD_DIR.glob("*.jpg"):
+        image.unlink(missing_ok=True)
+    for student_dir in TRAIN_DIR.glob("*"):
+        for image in student_dir.glob("*.jpg"):
+            image.unlink(missing_ok=True)
+
+    messages.success(request, f"Model for {batch_name} trained successfully.")
+    return render(request, 'train_complete.html', {
+        'batch_name': batch_name,
+        'train_acc': train_acc,
+        'train_loss': train_loss,
+        'class_id': class_id,
+    })
