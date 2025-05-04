@@ -23,92 +23,105 @@
         }
 
         body {
-            background: linear-gradient(145deg, var(--secondary), #B2EBF2);
+            background: linear-gradient(135deg, var(--secondary), #B2EBF2);
             font-family: 'Inter', sans-serif;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             overflow-x: hidden;
-            transition: background 0.5s ease;
+            transition: background 0.6s ease-in-out;
             color: var(--text);
         }
 
         main {
             flex: 1;
-            padding: 3rem 0;
+            padding: 4rem 0;
         }
 
         .navbar {
-            background: linear-gradient(145deg, var(--primary), var(--primary-dark));
-            box-shadow: 0 6px 16px var(--shadow);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            box-shadow: 0 8px 20px var(--shadow);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
             position: sticky;
             top: 0;
             z-index: 1000;
+            padding: 1.5rem 0;
         }
 
         .navbar-brand, .nav-link {
             color: var(--neutral) !important;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1.25rem;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
             position: relative;
-            transition: color 0.3s ease, transform 0.3s ease;
+            transition: color 0.4s ease, transform 0.4s ease;
+            padding: 0.75rem 1.25rem;
         }
 
-        .nav-link:hover {
+        .navbar-brand:hover, .nav-link:hover {
             color: var(--accent) !important;
-            transform: translateY(-3px) scale(1.05);
+            transform: translateY(-4px) scale(1.05);
         }
 
         .nav-link::after {
             content: '';
             position: absolute;
             width: 0;
-            height: 3px;
-            bottom: -4px;
+            height: 4px;
+            bottom: 0;
             left: 0;
             background: var(--accent);
-            transition: width 0.4s ease;
+            transition: width 0.5s ease;
         }
 
         .nav-link:hover::after {
             width: 100%;
         }
 
+        .navbar-toggler {
+            border: none;
+            padding: 0.75rem;
+        }
+
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.95%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+        }
+
         footer {
-            background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: var(--neutral);
-            padding: 2rem 0;
+            padding: 2.5rem 0;
             margin-top: auto;
-            box-shadow: 0 -6px 16px var(--shadow);
-            font-size: 0.9rem;
-            letter-spacing: 0.5px;
+            box-shadow: 0 -8px 20px var(--shadow);
+            font-size: 1rem;
+            letter-spacing: 1px;
         }
 
         .card {
             background: var(--neutral);
             border: none;
-            border-radius: 20px;
+            border-radius: 24px;
             overflow: hidden;
-            transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
+            transition: transform 0.5s ease, box-shadow 0.5s ease, background 0.5s ease;
             position: relative;
-            box-shadow: 0 6px 16px var(--shadow);
-            backdrop-filter: blur(10px);
-            background: rgba(255, 255, 255, 0.95);
+            box-shadow: 0 8px 24px var(--shadow);
+            backdrop-filter: blur(12px);
+            background: rgba(255, 255, 255, 0.97);
         }
 
         .card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.25);
-            background: linear-gradient(145deg, var(--neutral), var(--highlight));
+            transform: translateY(-12px) scale(1.03);
+            box-shadow: 0 16px 32px rgba(0, 0, 0, 0.3);
+            background: linear-gradient(135deg, var(--neutral), var(--highlight));
         }
 
         .card-header {
-            background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: var(--neutral);
-            padding: 1.75rem;
-            font-weight: 700;
+            padding: 2rem;
+            font-weight: 800;
+            font-size: 1.5rem;
             border-bottom: none;
             position: relative;
             overflow: hidden;
@@ -121,37 +134,37 @@
             left: -50%;
             width: 200%;
             height: 200%;
-            background: radial-gradient(circle, rgba(255, 255, 255, 0.2), transparent);
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.25), transparent);
             transform: rotate(45deg);
-            transition: transform 0.5s ease;
+            transition: transform 0.6s ease;
         }
 
         .card:hover .card-header::before {
-            transform: rotate(45deg) translate(20%, 20%);
+            transform: rotate(45deg) translate(25%, 25%);
         }
 
         .btn-custom {
-            background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: var(--neutral);
             border: none;
-            border-radius: 14px;
-            padding: 0.85rem 1.75rem;
-            font-weight: 600;
+            border-radius: 16px;
+            padding: 1rem 2rem;
+            font-weight: 700;
             position: relative;
             overflow: hidden;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            transition: transform 0.4s ease, box-shadow 0.4s ease, background 0.4s ease;
             text-transform: uppercase;
-            letter-spacing: 0.5px;
+            letter-spacing: 1px;
         }
 
         .btn-custom:hover {
-            background: linear-gradient(145deg, var(--primary-dark), var(--accent));
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            background: linear-gradient(135deg, var(--primary-dark), var(--accent));
+            transform: translateY(-5px) scale(1.06);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.25);
         }
 
         .btn-custom:active {
-            transform: scale(0.92);
+            transform: scale(0.9);
         }
 
         .btn-custom::before {
@@ -161,93 +174,105 @@
             left: 50%;
             width: 0;
             height: 0;
-            background: rgba(255, 255, 255, 0.4);
+            background: rgba(255, 255, 255, 0.5);
             border-radius: 50%;
             transform: translate(-50%, -50%);
-            transition: width 0.7s ease, height 0.7s ease;
+            transition: width 0.8s ease, height 0.8s ease;
         }
 
         .btn-custom:hover::before {
-            width: 400px;
-            height: 400px;
+            width: 500px;
+            height: 500px;
         }
 
         .container {
-            padding: 4rem 0;
-            max-width: 1280px;
+            padding: 5rem 0;
+            max-width: 1400px;
             margin: 0 auto;
         }
 
         h1, h2, h3 {
             color: var(--text);
             font-weight: 800;
-            letter-spacing: -0.5px;
-            transition: color 0.3s ease, transform 0.3s ease;
+            letter-spacing: -0.75px;
+            transition: color 0.4s ease, transform 0.4s ease;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+        }
+
+        h2 {
+            font-size: 2rem;
+        }
+
+        h3 {
+            font-size: 1.5rem;
         }
 
         h1:hover, h2:hover, h3:hover {
             color: var(--primary);
-            transform: translateY(-2px);
+            transform: translateY(-3px);
         }
 
         .alert-success {
-            background: linear-gradient(145deg, var(--success), #A7F3D0);
+            background: linear-gradient(135deg, var(--success), #A7F3D0);
             color: #065F46;
             border: none;
-            border-radius: 14px;
-            animation: slideIn 0.5s ease;
-            box-shadow: 0 4px 12px var(--shadow);
+            border-radius: 16px;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 6px 16px var(--shadow);
         }
 
         .alert-danger {
-            background: linear-gradient(145deg, var(--danger), #FECACA);
+            background: linear-gradient(135deg, var(--danger), #FECACA);
             color: #991B1B;
             border: none;
-            border-radius: 14px;
-            animation: slideIn 0.5s ease;
-            box-shadow: 0 4px 12px var(--shadow);
+            border-radius: 16px;
+            animation: slideIn 0.6s ease;
+            box-shadow: 0 6px 16px var(--shadow);
         }
 
         @keyframes slideIn {
-            from { transform: translateY(-30px); opacity: 0; }
+            from { transform: translateY(-40px); opacity: 0; }
             to { transform: translateY(0); opacity: 1; }
         }
 
         .table-responsive {
             background: var(--neutral);
-            border-radius: 14px;
-            box-shadow: 0 6px 16px var(--shadow);
+            border-radius: 16px;
+            box-shadow: 0 8px 24px var(--shadow);
             overflow: hidden;
-            transition: transform 0.3s ease;
-            max-height: 500px;
+            transition: transform 0.4s ease;
+            max-height: 600px;
             overflow-y: auto;
         }
 
         .table tr:nth-child(even) {
-            background: #F8FAFC;
+            background: #F9FAFB;
         }
 
         .table tr:hover {
-            background: linear-gradient(145deg, var(--highlight), #E5F4E8);
-            transform: scale(1.01);
-            transition: all 0.4s ease;
-            box-shadow: 0 4px 12px var(--shadow);
+            background: linear-gradient(135deg, var(--highlight), #E5F4E8);
+            transform: scale(1.02);
+            transition: all 0.5s ease;
+            box-shadow: 0 6px 16px var(--shadow);
         }
 
         .table th, .table td {
             vertical-align: middle;
-            padding: 1.25rem;
-            transition: background 0.3s ease;
+            padding: 1.5rem;
+            transition: background 0.4s ease;
             border: 1px solid #E5E7EB;
         }
 
         .table thead th {
-            background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: var(--neutral);
             position: sticky;
             top: 0;
             z-index: 1;
-            font-weight: 600;
+            font-weight: 700;
             cursor: pointer;
         }
 
@@ -255,21 +280,21 @@
             position: sticky;
             left: 0;
             z-index: 2;
-            background: linear-gradient(145deg, var(--primary), var(--primary-dark));
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
         }
 
         .table thead th.sortable:hover {
-            background: linear-gradient(145deg, var(--primary-dark), var(--accent));
+            background: linear-gradient(135deg, var(--primary-dark), var(--accent));
         }
 
         .table thead th.sort-asc::after {
             content: ' ↑';
-            font-size: 0.8rem;
+            font-size: 0.9rem;
         }
 
         .table thead th.sort-desc::after {
             content: ' ↓';
-            font-size: 0.8rem;
+            font-size: 0.9rem;
         }
 
         .table td:first-child {
@@ -277,76 +302,82 @@
             left: 0;
             background: var(--neutral);
             z-index: 1;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .table tbody tr:nth-child(even) td:first-child {
-            background: #F8FAFC;
+            background: #F9FAFB;
         }
 
         .table tbody tr:hover td:first-child {
-            background: linear-gradient(145deg, var(--highlight), #E5F4E8);
+            background: linear-gradient(135deg, var(--highlight), #E5F4E8);
         }
 
         .status-present {
             background: var(--success);
             color: #065F46;
-            font-weight: 600;
-            transition: all 0.3s ease;
+            font-weight: 700;
+            transition: all 0.4s ease;
         }
 
         .status-absent {
             background: var(--danger);
             color: #991B1B;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-
-        .filter-container {
-            margin-bottom: 1.5rem;
-        }
-
-        .form-select {
-            border-radius: 10px;
-            border: 1px solid #D1D5DB;
-            transition: all 0.3s ease;
-            font-weight: 500;
-        }
-
-        .form-select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+            font-weight: 700;
+            transition: all 0.4s ease;
         }
 
         @media (max-width: 768px) {
             .container {
-                padding: 2.5rem 1.5rem;
+                padding: 3rem 2rem;
+            }
+
+            .navbar {
+                padding: 1rem 0;
+            }
+
+            .navbar-brand, .nav-link {
+                font-size: 1rem;
+                padding: 0.5rem 1rem;
             }
 
             .btn-custom {
-                font-size: 0.85rem;
-                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+                padding: 0.75rem 1.5rem;
             }
 
             .card-header {
-                padding: 1.25rem;
+                padding: 1.5rem;
+                font-size: 1.25rem;
             }
 
             .table-responsive {
-                max-height: 400px;
+                max-height: 500px;
             }
 
             .table th, .table td {
-                padding: 0.75rem;
+                padding: 1rem;
+            }
+
+            h1 {
+                font-size: 2rem;
+            }
+
+            h2 {
+                font-size: 1.5rem;
+            }
+
+            h3 {
+                font-size: 1.25rem;
             }
         }
 
         .fade-in {
-            animation: fadeIn 0.8s ease-out;
+            animation: fadeIn 1s ease-out;
         }
 
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(30px) scale(0.95); }
+            from { opacity: 0; transform: translateY(40px) scale(0.95); }
             to { opacity: 1; transform: translateY(0) scale(1); }
         }
 
@@ -354,24 +385,24 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(8px);
-            border-radius: 20px;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
             z-index: -1;
-            transition: opacity 0.3s ease;
+            transition: opacity 0.4s ease;
         }
 
         .card:hover::before {
-            opacity: 0.8;
+            opacity: 0.9;
         }
 
         .card a {
-            transition: color 0.3s ease, transform 0.3s ease;
+            transition: color 0.4s ease, transform 0.4s ease;
         }
 
         .card a:hover {
             color: var(--primary);
-            transform: translateX(5px);
+            transform: translateX(6px);
         }
     </style>
 </head>
@@ -394,7 +425,7 @@
 
     <main>
         <div class="container my-4">
-            <h2 class="mb-4 fade-in">{{ subject }} - {{ class_batch }}</h2>
+            <h2 class="mb-5 fade-in">{{ subject }} - {{ class_batch }}</h2>
 
             {% if messages %}
                 {% for message in messages %}
@@ -406,19 +437,10 @@
             {% endif %}
 
             <h3 class="text-dark fade-in" style="animation-delay: 0.2s;">Students</h3>
-            <div class="filter-container fade-in" style="animation-delay: 0.3s;">
-                <label for="session-filter" class="form-label">Filter Sessions:</label>
-                <select id="session-filter" class="form-select w-auto d-inline-block">
-                    <option value="all">All Sessions</option>
-                    {% for session in attendance_sessions %}
-                        <option value="{{ forloop.counter0 }}">{{ session.date }} (Period {{ session.get_period_display }})</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <div class="table-responsive fade-in" style="animation-delay: 0.4s;">
-                <table class="table table-bordered">
+            <div class="table-responsive fade-in" style="animation-delay: 0.3s;">
+                <table class="table table-bordered" id="attendance-table">
                     <thead>
-                        <tr>
+                        <tr id="table-header">
                             <th>Student</th>
                             {% for session in attendance_sessions %}
                                 <th data-bs-toggle="tooltip" title="{{ session.date }} (Period {{ session.get_period_display }})" data-session-index="{{ forloop.counter0 }}">
@@ -430,12 +452,12 @@
                             <th class="sortable" data-sort="attendance_percentage">Percentage</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="table-body">
                         {% for data in attendance_data %}
                             <tr data-student-id="{{ data.student.id }}">
                                 <td>{{ data.student.user.username }}</td>
                                 {% for session in data.sessions %}
-                                    <td class="{% if session.present %}status-present{% else %}status-absent{% endif %}" data-session-id="{{ session.session_id }}">
+                                    <td class="{% if session.present %}status-present{% else %}status-absent{% endif %}" data-session-index="{{ forloop.counter0 }}">
                                         {{ session.present|yesno:"Present,Absent" }}
                                     </td>
                                 {% endfor %}
@@ -454,8 +476,8 @@
                 </table>
             </div>
 
-            <div class="mt-3 fade-in" style="animation-delay: 0.5s;">
-                <a href="{% url 'mark_attendance' subject_id=subject.id class_id=class_batch.id %}" class="btn btn-custom me-2"><i class="bi bi-check-circle me-1"></i> Mark Attendance</a>
+            <div class="mt-4 fade-in" style="animation-delay: 0.4s;">
+                <a href="{% url 'mark_attendance' subject_id=subject.id class_id=class_batch.id %}" class="btn btn-custom me-3"><i class="bi bi-check-circle me-1"></i> Mark Attendance</a>
                 <a href="{% url 'teacher_dashboard' %}" class="btn btn-custom"><i class="bi bi-arrow-left me-1"></i> Back to Dashboard</a>
             </div>
         </div>
@@ -483,8 +505,8 @@
                 th.classList.add(isAsc ? 'sort-asc' : 'sort-desc');
 
                 const tbody = th.closest('table').querySelector('tbody');
-                const rows = Array.from(tbody.querySelectorAll('tr:not(.no-data)')); // Exclude "No data" row
-                const noDataRow = tbody.querySelector('tr.no-data'); // Store "No data" row if it exists
+                const rows = Array.from(tbody.querySelectorAll('tr:not(.no-data)'));
+                const noDataRow = tbody.querySelector('tr.no-data');
 
                 rows.sort((a, b) => {
                     const aVal = parseFloat(a.querySelector(`td:nth-last-child(${sortKey === 'total_classes' ? 3 : sortKey === 'present_classes' ? 2 : 1})`).textContent.replace('%', '')) || 0;
@@ -495,20 +517,11 @@
                 tbody.innerHTML = '';
                 rows.forEach(row => tbody.appendChild(row));
                 if (noDataRow) {
-                    tbody.appendChild(noDataRow); // Re-append "No data" row if it exists
+                    tbody.appendChild(noDataRow);
                 }
 
-                tbody.style.animation = 'fadeInStatus 0.3s';
-                setTimeout(() => tbody.style.animation = '', 300);
-            });
-        });
-
-        // Filter sessions
-        document.getElementById('session-filter').addEventListener('change', (e) => {
-            const selectedIndex = e.target.value;
-            document.querySelectorAll('th[data-session-index], td[data-session-id]').forEach(cell => {
-                const index = cell.dataset.sessionIndex || cell.dataset.sessionId.split('-')[0];
-                cell.style.display = selectedIndex === 'all' || index === selectedIndex ? '' : 'none';
+                tbody.style.animation = 'fade víaStatus 0.4s';
+                setTimeout(() => tbody.style.animation = '', 400);
             });
         });
 
@@ -521,17 +534,17 @@
 
                 const ripple = document.createElement('span');
                 ripple.style.position = 'absolute';
-                ripple.style.background = 'rgba(255, 255, 255, 0.3)';
+                ripple.style.background = 'rgba(255, 255, 255, 0.4)';
                 ripple.style.borderRadius = '50%';
                 ripple.style.transform = 'translate(-50%, -50%)';
-                ripple.style.width = '100px';
-                ripple.style.height = '100px';
+                ripple.style.width = '120px';
+                ripple.style.height = '120px';
                 ripple.style.left = `${x}px`;
                 ripple.style.top = `${y}px`;
-                ripple.style.animation = 'ripple 0.6s linear';
+                ripple.style.animation = 'ripple 0.7s linear';
                 button.appendChild(ripple);
 
-                setTimeout(() => ripple.remove(), 600);
+                setTimeout(() => ripple.remove(), 700);
             });
         });
 
@@ -544,7 +557,7 @@
             }
             @keyframes ripple {
                 to {
-                    transform: translate(-50%, -50%) scale(2);
+                    transform: translate(-50%, -50%) scale(2.5);
                     opacity: 0;
                 }
             }
