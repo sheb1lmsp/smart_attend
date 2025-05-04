@@ -1,11 +1,13 @@
 {% extends "base.html" %}
 {% block content %}
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Attendance System</title>
+    <title>Home - Attendance System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
@@ -110,9 +112,6 @@
             box-shadow: 0 6px 16px var(--shadow);
             backdrop-filter: blur(10px);
             background: rgba(255, 255, 255, 0.97);
-            width: 100%;
-            max-width: 400px;
-            margin: 0 auto;
         }
 
         .card:hover {
@@ -130,7 +129,6 @@
             border-bottom: none;
             position: relative;
             overflow: hidden;
-            text-align: center;
         }
 
         .card-header::before {
@@ -162,7 +160,6 @@
             text-transform: uppercase;
             letter-spacing: 1px;
             font-size: 0.9rem;
-            width: 100%;
         }
 
         .btn-custom:hover {
@@ -207,11 +204,11 @@
         }
 
         h1 {
-            font-size: 2rem;
+            font-size: 2.5rem;
         }
 
         h2 {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
         }
 
         h3 {
@@ -239,7 +236,6 @@
             border-radius: 14px;
             animation: slideIn 0.6s ease;
             box-shadow: 0 6px 16px var(--shadow);
-            text-align: center;
         }
 
         @keyframes slideIn {
@@ -247,87 +243,61 @@
             to { transform: translateY(0); opacity: 1; }
         }
 
-        .form-control, .form-select {
-            border-radius: 10px;
-            border: 1px solid #D1D5DB;
-            transition: all 0.3s ease;
-            font-weight: 500;
-            padding: 0.75rem;
-        }
-
-        .form-control:focus, .form-select:focus {
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
-        }
-
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-
-        .toggle-group {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 1.5rem;
-            justify-content: center;
-        }
-
-        .toggle-option {
-            flex: 1;
-            padding: 0.75rem 1.5rem;
-            background: var(--neutral);
-            border: 1px solid #D1D5DB;
-            border-radius: 10px;
+        .hero-section {
             text-align: center;
-            font-weight: 600;
+            padding: 5rem 0;
+            background: linear-gradient(135deg, rgba(13, 148, 136, 0.1), rgba(34, 211, 238, 0.1));
+            border-radius: 20px;
+            box-shadow: 0 6px 16px var(--shadow);
+        }
+
+        .hero-section h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .hero-section p {
+            font-size: 1.25rem;
+            margin-bottom: 2rem;
             color: var(--text);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 2px 8px var(--shadow);
         }
 
-        .toggle-option:hover {
-            background: linear-gradient(135deg, var(--neutral), var(--highlight));
-            transform: translateY(-4px) scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+        .feature-card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-top-left-radius: 20px;
+            border-top-right-radius: 20px;
         }
 
-        .toggle-option.active {
+        .scroll-to-top {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
             background: linear-gradient(135deg, var(--primary), var(--primary-dark));
             color: var(--neutral);
-            border-color: var(--primary);
-            transform: scale(1.05);
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
-        }
-
-        .toggle-option::before {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 0;
-            height: 0;
-            background: rgba(255, 255, 255, 0.4);
+            border: none;
             border-radius: 50%;
-            transform: translate(-50%, -50%);
-            transition: width 0.7s ease, height 0.7s ease;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 6px 16px var(--shadow);
+            opacity: 0;
+            transition: opacity 0.4s ease, transform 0.4s ease;
+            cursor: pointer;
+            z-index: 1000;
         }
 
-        .toggle-option:hover::before {
-            width: 300px;
-            height: 300px;
+        .scroll-to-top.visible {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        .toggle-option.active::before {
-            width: 0;
-            height: 0;
-        }
-
-        .toggle-option:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 4px rgba(13, 148, 136, 0.15);
+        .scroll-to-top:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
         }
 
         @media (max-width: 768px) {
@@ -354,30 +324,32 @@
                 font-size: 1rem;
             }
 
-            .form-control, .form-select {
-                padding: 0.6rem;
-                font-size: 0.85rem;
-            }
-
-            .toggle-group {
-                flex-direction: column;
-                gap: 0.75rem;
-            }
-
-            .toggle-option {
-                padding: 0.6rem 1.2rem;
-            }
-
             h1 {
-                font-size: 1.75rem;
+                font-size: 2rem;
             }
 
             h2 {
-                font-size: 1.25rem;
+                font-size: 1.5rem;
             }
 
             h3 {
                 font-size: 1.25rem;
+            }
+
+            .hero-section {
+                padding: 3rem 1rem;
+            }
+
+            .hero-section h1 {
+                font-size: 2.5rem;
+            }
+
+            .hero-section p {
+                font-size: 1rem;
+            }
+
+            .feature-card img {
+                height: 150px;
             }
         }
 
@@ -418,7 +390,7 @@
 <body>
     <nav class="navbar navbar-expand-lg">
         <div class="container-fluid">
-            <a class="navbar-brand" href="#">Attendance System</a>
+            <a class="navbar-brand" href="{% url 'home' %}">Attendance System</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -433,49 +405,86 @@
     </nav>
 
     <main>
-        <div class="container my-4">
-            <div class="card fade-in">
-                <div class="card-header">
-                    <h2>Login</h2>
+        <section class="hero-section fade-in">
+            <div class="container">
+                <h1>Welcome to the Attendance System</h1>
+                <p>Effortlessly manage attendance with cutting-edge face recognition technology. Track student and teacher activities with ease.</p>
+                <a href="{% url 'login' %}" class="btn btn-custom"><i class="bi bi-box-arrow-in-right me-1"></i> Get Started</a>
+            </div>
+        </section>
+
+        <section class="container my-5 fade-in" style="animation-delay: 0.2s;">
+            <h2 class="mb-4 text-center">Our Features</h2>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="card feature-card">
+                        <img src="{% static 'images/img1.png' %}" alt="Face Recognition Feature">
+                        <div class="card-header">
+                            <h3>Face Recognition</h3>
+                        </div>
+                        <div class="card-body p-4">
+                            <p>Automated attendance marking using advanced face recognition technology.</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="card-body p-4">
-                    {% if messages %}
-                        {% for message in messages %}
-                            <div class="alert alert-{{ message.tags }} alert-dismissible fade show fade-in" role="alert" style="animation-delay: 0.1s;">
-                                {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        {% endfor %}
-                    {% endif %}
-                    <form method="post" action="{% url 'login' %}">
-                        {% csrf_token %}
-                        <input type="hidden" name="user_type" id="user_type" value="{{ user_type|default:'student' }}">
-                        <div class="form-group toggle-group" role="radiogroup" aria-label="User Type Selection">
-                            <div class="toggle-option {% if user_type == 'student' or not user_type %}active{% endif %}" data-value="student" tabindex="0" role="radio" aria-checked="{% if user_type == 'student' or not user_type %}true{% else %}false{% endif %}" aria-label="Student">
-                                Student
-                            </div>
-                            <div class="toggle-option {% if user_type == 'teacher' %}active{% endif %}" data-value="teacher" tabindex="0" role="radio" aria-checked="{% if user_type == 'teacher' %}true{% else %}false{% endif %}" aria-label="Teacher">
-                                Teacher
-                            </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card feature-card">
+                        <img src="https://via.placeholder.com/400x200?text=Student+Dashboard" alt="Student Dashboard Feature">
+                        <div class="card-header">
+                            <h3>Student Dashboard</h3>
                         </div>
-                        <div class="form-group">
-                            <label for="username" class="form-label">Username</label>
-                            <input type="text" class="form-control" id="username" name="username" value="{{ username }}" required>
+                        <div class="card-body p-4">
+                            <p>View attendance records, subject-wise statistics, and more in a user-friendly interface.</p>
                         </div>
-                        <div class="form-group">
-                            <label for="password" class="form-label">Password</label>
-                            <input type="password" class="form-control" id="password" name="password" required>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="card feature-card">
+                        <img src="https://via.placeholder.com/400x200?text=Teacher+Dashboard" alt="Teacher Dashboard Feature">
+                        <div class="card-header">
+                            <h3>Teacher Dashboard</h3>
                         </div>
-                        <button type="submit" class="btn btn-custom"><i class="bi bi-box-arrow-in-right me-1"></i> Login</button>
-                    </form>
+                        <div class="card-body p-4">
+                            <p>Manage classes, mark attendance, and monitor student progress effortlessly.</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
+
+        <section class="container my-5 fade-in" style="animation-delay: 0.4s;">
+            <h2 class="mb-4 text-center">About the System</h2>
+            <div class="card">
+                <div class="card-header">
+                    <h3>Why Choose Us?</h3>
+                </div>
+                <div class="card-body p-4">
+                    <p>Our attendance system leverages state-of-the-art face recognition to streamline attendance tracking for educational institutions. Designed for both students and teachers, it offers intuitive dashboards, real-time analytics, and secure data management.</p>
+                    <ul>
+                        <li>Secure and reliable attendance tracking</li>
+                        <li>Easy-to-use interfaces for all users</li>
+                        <li>Comprehensive reporting and analytics</li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="container my-5 fade-in" style="animation-delay: 0.6s;">
+            <div class="text-center">
+                <h2>Ready to Transform Attendance?</h2>
+                <p>Join our platform and experience seamless attendance management.</p>
+                <a href="{% url 'login' %}" class="btn btn-custom"><i class="bi bi-box-arrow-in-right me-1"></i> Login Now</a>
+            </div>
+        </section>
     </main>
 
     <footer class="text-white text-center py-3">
         <p>© 2025 Attendance System</p>
     </footer>
+
+    <button class="scroll-to-top" title="Scroll to Top">
+        <i class="bi bi-arrow-up"></i>
+    </button>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script>
@@ -483,10 +492,10 @@
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
         const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
-        // Add ripple effect to buttons and toggle options
-        document.querySelectorAll('.btn-custom, .toggle-option').forEach(element => {
-            element.addEventListener('click', (e) => {
-                const rect = element.getBoundingClientRect();
+        // Add ripple effect to buttons
+        document.querySelectorAll('.btn-custom').forEach(button => {
+            button.addEventListener('click', (e) => {
+                const rect = button.getBoundingClientRect();
                 const x = e.clientX - rect.left;
                 const y = e.clientY - rect.top;
 
@@ -500,31 +509,24 @@
                 ripple.style.left = `${x}px`;
                 ripple.style.top = `${y}px`;
                 ripple.style.animation = 'ripple 0.7s linear';
-                element.appendChild(ripple);
+                button.appendChild(ripple);
 
                 setTimeout(() => ripple.remove(), 700);
             });
         });
 
-        // Toggle user type selection
-        document.querySelectorAll('.toggle-option').forEach(option => {
-            option.addEventListener('click', () => {
-                document.querySelectorAll('.toggle-option').forEach(opt => {
-                    opt.classList.remove('active');
-                    opt.setAttribute('aria-checked', 'false');
-                });
-                option.classList.add('active');
-                option.setAttribute('aria-checked', 'true');
-                document.getElementById('user_type').value = option.dataset.value;
-            });
+        // Scroll-to-top button functionality
+        const scrollToTopBtn = document.querySelector('.scroll-to-top');
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollToTopBtn.classList.add('visible');
+            } else {
+                scrollToTopBtn.classList.remove('visible');
+            }
+        });
 
-            // Keyboard support
-            option.addEventListener('keydown', (e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    option.click();
-                }
-            });
+        scrollToTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
         // Add style for ripple effect
