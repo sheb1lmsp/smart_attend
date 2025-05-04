@@ -247,6 +247,8 @@
             box-shadow: 0 6px 16px var(--shadow);
             overflow: hidden;
             transition: transform 0.4s ease;
+            max-height: 600px;
+            overflow-y: auto;
         }
 
         .table tr:nth-child(even) {
@@ -264,6 +266,30 @@
             vertical-align: middle;
             padding: 1rem;
             transition: background 0.4s ease;
+            border: 1px solid #E5E7EB;
+        }
+
+        .table thead th {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: var(--neutral);
+            position: sticky;
+            top: 0;
+            z-index: 1;
+            font-weight: 700;
+        }
+
+        .status-present {
+            color: #34D399 !important;
+            font-weight: 700;
+        }
+
+        .status-absent {
+            color: #F87171 !important;
+            font-weight: 700;
+        }
+
+        .subject-name {
+            font-weight: 700;
         }
 
         @media (max-width: 768px) {
@@ -292,6 +318,7 @@
 
             .table th, .table td {
                 padding: 0.75rem;
+                font-size: 0.8rem;
             }
 
             h1 {
@@ -303,7 +330,7 @@
             }
 
             h3 {
-                font-size: 1rem;
+                font-size: 1.25rem;
             }
         }
 
@@ -375,108 +402,42 @@
                 </div>
             </div>
 
-            <div class="card mb-4 fade-in" style="animation-delay: 0.2s;">
-                <div class="card-header">
-                    <h2>Subjects</h2>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Subject Name</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for subject in subjects %}
-                                    <tr>
-                                        <td>{{ subject.name }}</td>
-                                    </tr>
-                                {% empty %}
-                                    <tr>
-                                        <td>No subjects assigned</td>
-                                    </tr>
+            <h2 class="mb-3 fade-in" style="animation-delay: 0.2s;">Attendance Details</h2>
+            <div class="table-responsive mb-4 fade-in" style="animation-delay: 0.3s;">
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            {% for period in distinct_periods %}
+                                <th>{{ period.display }}</th>
+                            {% endfor %}
+                            <th>Total Classes</th>
+                            <th>Classes Attended</th>
+                            <th>Attendance %</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for subject_data in attendance_data %}
+                            <tr>
+                                <td class="subject-name">{{ subject_data.subject.name }}</td>
+                                {% for period in subject_data.periods %}
+                                    <td class="{% if period.present %}status-present{% else %}status-absent{% endif %}">
+                                        {{ period.present|yesno:"Present,Absent" }}
+                                    </td>
                                 {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card mb-4 fade-in" style="animation-delay: 0.3s;">
-                <div class="card-header">
-                    <h2>Subject-wise Attendance Statistics</h2>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Subject</th>
-                                    <th>Total Classes</th>
-                                    <th>Classes Attended</th>
-                                    <th>Attendance %</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for stat in subject_stats %}
-                                    <tr>
-                                        <td>{{ stat.subject.name }}</td>
-                                        <td>{{ stat.total }}</td>
-                                        <td>{{ stat.present }}</td>
-                                        <td>{{ stat.percentage }}%</td>
-                                    </tr>
-                                {% empty %}
-                                    <tr>
-                                        <td colspan="4">No attendance data available</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="card fade-in" style="animation-delay: 0.4s;">
-                <div class="card-header">
-                    <h2>Complete Attendance History</h2>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <thead>
-                                <tr>
-                                    <th>Date</th>
-                                    <th>Period</th>
-                                    <th>Subject</th>
-                                    <th>Teacher</th>
-                                    <th>Status</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for attendance in all_attendance %}
-                                    {% for report in attendance.attendance_report.all %}
-                                        {% if report.student == student %}
-                                            <tr>
-                                                <td>{{ attendance.date }}</td>
-                                                <td>{{ attendance.get_period_display }}</td>
-                                                <td>{{ attendance.subject.name }}</td>
-                                                <td>{{ attendance.taken_by.user.username }}</td>
-                                                <td class="{% if report.present_or_not %}text-success{% else %}text-danger{% endif %}">
-                                                    {{ report.present_or_not|yesno:"Present,Absent" }}
-                                                </td>
-                                            </tr>
-                                        {% endif %}
-                                    {% endfor %}
-                                {% empty %}
-                                    <tr>
-                                        <td colspan="5">No attendance recorded</td>
-                                    </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+                                <td>{{ subject_data.total }}</td>
+                                <td>{{ subject_data.present }}</td>
+                                <td>{{ subject_data.percentage }}%</td>
+                            </tr>
+                        {% empty %}
+                            <tr>
+                                <td colspan="{% if distinct_periods|length > 0 %}{{ distinct_periods|length|add:4 }}{% else %}4{% endif %}">
+                                    No subjects or attendance data available
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
     </main>
@@ -489,7 +450,7 @@
     <script>
         // Enable Bootstrap tooltips
         const tooltipTriggerList = document.querySelectorAll('[data-bs-toggle="tooltip"]');
-        const tooltipList = [...tooltipTriggerList].map(totooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
+        const tooltipList = [...tooltipTriggerList].map(tooltipTriggerEl => new bootstrap.Tooltip(tooltipTriggerEl));
 
         // Add ripple effect to buttons
         document.querySelectorAll('.btn-custom').forEach(button => {

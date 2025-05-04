@@ -65,11 +65,53 @@ def student_dashboard(request):
             'percentage': round(percentage, 2)
         })
 
-    # Complete attendance history
-    all_attendance = Attendance.objects.filter(
+    # Get distinct periods with display names
+    distinct_periods = []
+    period_values = Attendance.objects.filter(
         class_batch=class_batch,
         attendance_report__student=student
-    ).prefetch_related('attendance_report', 'subject', 'taken_by').order_by('-date')
+    ).values('period').distinct()
+    for period in period_values:
+        temp_attendance = Attendance(period=period['period'])
+        distinct_periods.append({
+            'value': period['period'],
+            'display': temp_attendance.get_period_display()
+        })
+
+    # Prepare attendance data for each subject and period
+    attendance_data = []
+    for subject in subjects:
+        subject_data = {
+            'subject': subject,
+            'periods': [],
+            'total': 0,
+            'present': 0,
+            'percentage': 0
+        }
+        for period in distinct_periods:
+            period_value = period['value']
+            attendance_record = Attendance.objects.filter(
+                class_batch=class_batch,
+                subject=subject,
+                period=period_value,
+                attendance_report__student=student
+            ).first()
+            is_present = False
+            if attendance_record:
+                report = attendance_record.attendance_report.filter(student=student).first()
+                is_present = report.present_or_not if report else False
+            subject_data['periods'].append({
+                'period': period_value,
+                'present': is_present
+            })
+        # Copy stats from subject_stats to avoid recomputation
+        for stat in subject_stats:
+            if stat['subject'] == subject:
+                subject_data['total'] = stat['total']
+                subject_data['present'] = stat['present']
+                subject_data['percentage'] = stat['percentage']
+                break
+        attendance_data.append(subject_data)
 
     context = {
         'student': student,
@@ -79,7 +121,8 @@ def student_dashboard(request):
         'total_classes': total_classes,
         'present_classes': present_classes,
         'subject_stats': subject_stats,
-        'all_attendance': all_attendance,
+        'distinct_periods': distinct_periods,
+        'attendance_data': attendance_data,
     }
 
     return render(request, 'student_dashboard.html', context)

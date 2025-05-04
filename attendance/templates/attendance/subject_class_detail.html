@@ -19,7 +19,7 @@
             --shadow: rgba(0, 0, 0, 0.15);
             --highlight: #F0FDF4;
             --danger: #FECACA;
-            --success: #D1FAE5;
+            --success: #A7F3D0;
         }
 
         body {
@@ -314,17 +314,15 @@
         }
 
         .status-present {
-            background: var(--success);
-            color: #065F46;
+            color: #34D399 !important; /* Darker green text for present */
             font-weight: 700;
-            transition: all 0.4s ease;
+            transition: color 0.3s ease;
         }
 
         .status-absent {
-            background: var(--danger);
-            color: #991B1B;
+            color: #F87171 !important; /* Darker red text for absent */
             font-weight: 700;
-            transition: all 0.4s ease;
+            transition: color 0.3s ease;
         }
 
         @media (max-width: 768px) {
@@ -443,8 +441,8 @@
                         <tr id="table-header">
                             <th>Student</th>
                             {% for session in attendance_sessions %}
-                                <th data-bs-toggle="tooltip" title="{{ session.date }} (Period {{ session.get_period_display }})" data-session-index="{{ forloop.counter0 }}">
-                                    {{ session.date }}<br>Period {{ session.get_period_display }}
+                                <th data-bs-toggle="tooltip" title="{{ session.date }} ({{ session.get_period_display }})" data-session-index="{{ forloop.counter0 }}">
+                                    {{ session.date|date:"l, F j, Y" }} {{session.get_period_display}}
                                 </th>
                             {% endfor %}
                             <th class="sortable" data-sort="total_classes">Total Classes</th>
@@ -477,8 +475,8 @@
             </div>
 
             <div class="mt-4 fade-in" style="animation-delay: 0.4s;">
-                <a href="{% url 'mark_attendance' subject_id=subject.id class_id=class_batch.id %}" class="btn btn-custom me-3"><i class="bi bi-check-circle me-1"></i> Mark Attendance</a>
-                <a href="{% url 'teacher_dashboard' %}" class="btn btn-custom"><i class="bi bi-arrow-left me-1"></i> Back to Dashboard</a>
+                <a href="{% url 'teacher_dashboard' %}" class="btn btn-custom me-3"><i class="bi bi-arrow-left me-1"></i> Back to Dashboard</a>
+                <a href="{% url 'mark_attendance' subject_id=subject.id class_id=class_batch.id %}" class="btn btn-custom"><i class="bi bi-check-circle me-1"></i> Mark Attendance</a>
             </div>
         </div>
     </main>
@@ -520,7 +518,7 @@
                     tbody.appendChild(noDataRow);
                 }
 
-                tbody.style.animation = 'fade víaStatus 0.4s';
+                tbody.style.animation = 'fadeInStatus 0.4s';
                 setTimeout(() => tbody.style.animation = '', 400);
             });
         });
@@ -578,5 +576,5 @@
             observer.observe(element);
         });
     </script>
-</body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'93a9c92dfe84bfd1',t:'MTc0NjM4MDQ1NC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
