@@ -1,0 +1,52 @@
+# Python/Django
+*.pyc
+__pycache__/
+*.pyo
+*.pyd
+*.db
+*.sqlite3
+*.log
+
+# Environment variables
+.env
+
+# Virtual environment
+venv/
+env/
+.venv/
+
+# Django media and static files
+media/
+staticfiles/
+
+# Specific media directories from your project
+media/faces/
+media/models/
+media/uploads/
+
+# Temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# IDE and editor files
+.vscode/
+.idea/
+*.sublime-project
+*.sublime-workspace
+
+# macOS
+.DS_Store
+
+# Windows
+Thumbs.db
+Desktop.ini
+
+# Database migrations (optional, if you don’t want to track migrations)
+*/migrations/*.py
+!*/migrations/__init__.py
+
+# Twilio-related temporary or sensitive files
+*.pth  # Model files, if you want to exclude them
+*.txt  # Class names files, if sensitive (e.g., media/models/<class_batch>_class_names.txt)
