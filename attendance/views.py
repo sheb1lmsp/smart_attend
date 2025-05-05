@@ -18,6 +18,13 @@ import torch
 from django.core.exceptions import ObjectDoesNotExist
 import tempfile
 from django.core.exceptions import ValidationError
+from twilio.rest import Client
+from twilio.base.exceptions import TwilioRestException
+from dotenv import load_dotenv
+
+
+# Load environment variables
+load_dotenv()
 
 
 FACES_DIR = Path(settings.MEDIA_ROOT) / 'faces'
@@ -295,13 +302,38 @@ def mark_attendance(request, subject_id, class_id):
                         subject=subject
                     )
 
-                    # Create AttendanceReport records
+                    # Initialize Twilio client
+                    twilio_client = Client(
+                        os.environ['TWILIO_ACCOUNT_SID'],
+                        os.environ['TWILIO_AUTH_TOKEN']
+                    )
+                    from_number = os.environ['TWILIO_PHONE_NUMBER']
+
+                    # Create AttendanceReport records and send SMS for absent students
                     for student in students:
+                        is_present = attendance_results.get(student.user.username, False)
                         report = AttendanceReport.objects.create(
                             student=student,
-                            present_or_not=attendance_results.get(student.user.username, False)
+                            present_or_not=is_present
                         )
                         attendance.attendance_report.add(report)
+
+                        # Send SMS to parent if student is absent
+                        if not is_present:
+                            parent_phone = f"+91{student.parent_phone_number}"
+                            message_body = (
+                                f"Dear {student.parent_name}, your child {student.user.username} "
+                                f"was absent for {subject.name} (Period {period}) on {current_date}."
+                            )
+                            try:
+                                twilio_client.messages.create(
+                                    body=message_body,
+                                    from_=from_number,
+                                    to=parent_phone
+                                )
+                                messages.info(request, f"SMS sent to {student.parent_name} for {student.user.username}'s absence.")
+                            except TwilioRestException as e:
+                                messages.error(request, f"Failed to send SMS to {student.parent_name}: {str(e)}")
 
                     # Generate URL for processed image
                     processed_image_url = f"{settings.MEDIA_URL}uploads/{output_filename}"
