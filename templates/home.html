@@ -40,38 +40,38 @@
         </section>
 
         <section class="container my-5 fade-in" style="animation-delay: 0.2s;">
-            <h2 class="mb-4 text-center">Our Features</h2>
+            <h2 class="mb-4 text-center">How It Works</h2>
             <div class="row">
                 <div class="col-md-4 mb-4">
                     <div class="card feature-card">
-                        <img src="{% static 'images/img1.png' %}" alt="Face Recognition Feature">
+                        <img src="https://via.placeholder.com/400x200?text=Train+Model" alt="Train Model Step">
                         <div class="card-header">
-                            <h3>Face Recognition</h3>
+                            <h3>Step 1: Train the Model</h3>
                         </div>
                         <div class="card-body p-4">
-                            <p>Automated attendance marking using advanced face recognition technology.</p>
+                            <p>Initialize the system by training the face recognition model with student and teacher profiles at the start.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card feature-card">
-                        <img src="https://via.placeholder.com/400x200?text=Student+Dashboard" alt="Student Dashboard Feature">
+                        <img src="https://via.placeholder.com/400x200?text=Capture+Photo" alt="Capture Photo Step">
                         <div class="card-header">
-                            <h3>Student Dashboard</h3>
+                            <h3>Step 2: Capture Group Photo</h3>
                         </div>
                         <div class="card-body p-4">
-                            <p>View attendance records, subject-wise statistics, and more in a user-friendly interface.</p>
+                            <p>Take a group photo at the beginning of each class period to record attendance.</p>
                         </div>
                     </div>
                 </div>
                 <div class="col-md-4 mb-4">
                     <div class="card feature-card">
-                        <img src="https://via.placeholder.com/400x200?text=Teacher+Dashboard" alt="Teacher Dashboard Feature">
+                        <img src="https://via.placeholder.com/400x200?text=Mark+Attendance" alt="Mark Attendance Step">
                         <div class="card-header">
-                            <h3>Teacher Dashboard</h3>
+                            <h3>Step 3: Automatic Attendance</h3>
                         </div>
                         <div class="card-body p-4">
-                            <p>Manage classes, mark attendance, and monitor student progress effortlessly.</p>
+                            <p>Upload the group photo, and the system automatically identifies and marks attendance for all individuals.</p>
                         </div>
                     </div>
                 </div>
@@ -79,6 +79,100 @@
         </section>
 
         <section class="container my-5 fade-in" style="animation-delay: 0.4s;">
+            <h2 class="mb-4 text-center">Our Features</h2>
+            <div id="featuresCarousel" class="carousel slide carousel-fade" data-bs-ride="carousel" data-bs-interval="5000">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#featuresCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#featuresCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <div class="card feature-card">
+                                    <img src="{% static 'images/img1.png' %}" alt="MTCNN Face Detection" loading="lazy">
+                                    <div class="card-header">
+                                        <h3>MTCNN Face Detection</h3>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <p>Utilizes MTCNN for precise face detection, ensuring accurate identification in group photos even in challenging conditions.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card feature-card">
+                                    <img src="https://via.placeholder.com/400x200?text=InceptionResNetV1" alt="InceptionResNetV1 Recognition" loading="lazy">
+                                    <div class="card-header">
+                                        <h3>InceptionResNetV1 Recognition</h3>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <p>Employs InceptionResNetV1 for robust face recognition, delivering high accuracy in matching faces to profiles.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card feature-card">
+                                    <img src="https://via.placeholder.com/400x200?text=PyTorch+Framework" alt="PyTorch Framework" loading="lazy">
+                                    <div class="card-header">
+                                        <h3>PyTorch Framework</h3>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <p>Built on PyTorch, enabling efficient deep learning model training and deployment for seamless performance.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="row">
+                            <div class="col-md-4 mb-4">
+                                <div class="card feature-card">
+                                    <img src="https://via.placeholder.com/400x200?text=Real-Time+Analytics" alt="Real-Time Analytics" loading="lazy">
+                                    <div class="card-header">
+                                        <h3>Real-Time Analytics</h3>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <p>Provides instant insights into attendance trends and statistics, empowering educators with actionable data.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card feature-card">
+                                    <img src="https://via.placeholder.com/400x200?text=Secure+Cloud+Storage" alt="Secure Cloud Storage" loading="lazy">
+                                    <div class="card-header">
+                                        <h3>Secure Cloud Storage</h3>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <p>Ensures all data is securely stored in the cloud with encryption, safeguarding sensitive information.</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4 mb-4">
+                                <div class="card feature-card">
+                                    <img src="https://via.placeholder.com/400x200?text=Mobile+Accessibility" alt="Mobile Accessibility" loading="lazy">
+                                    <div class="card-header">
+                                        <h3>Mobile Accessibility</h3>
+                                    </div>
+                                    <div class="card-body p-4">
+                                        <p>Access dashboards and manage attendance on-the-go with our responsive mobile-friendly interface.</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#featuresCarousel" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#featuresCarousel" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </section>
+
+        <section class="container my-5 fade-in" style="animation-delay: 0.6s;">
             <h2 class="mb-4 text-center">About the System</h2>
             <div class="card">
                 <div class="card-header">
@@ -95,7 +189,7 @@
             </div>
         </section>
 
-        <section class="container my-5 fade-in" style="animation-delay: 0.6s;">
+        <section class="container my-5 fade-in" style="animation-delay: 0.8s;">
             <div class="text-center">
                 <h2>Ready to Transform Attendance?</h2>
                 <p>Join our platform and experience seamless attendance management.</p>

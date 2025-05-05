@@ -64,3 +64,21 @@ const observer = new IntersectionObserver((entries) => {
 document.querySelectorAll('.fade-in').forEach(element => {
     observer.observe(element);
 });
+
+// Initialize smooth carousel
+const featuresCarousel = document.querySelector('#featuresCarousel');
+const carousel = new bootstrap.Carousel(featuresCarousel, {
+    interval: 5000,
+    ride: 'carousel',
+    pause: 'hover',
+    wrap: true,
+    touch: true
+});
+
+// Preload images for smoother transitions
+const images = document.querySelectorAll('.feature-card img');
+images.forEach(img => {
+    const src = img.getAttribute('src');
+    const preloadImg = new Image();
+    preloadImg.src = src;
+});

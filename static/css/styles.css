@@ -371,3 +371,67 @@ h1:hover, h2:hover, h3:hover {
     color: var(--primary);
     transform: translateX(6px);
 }
+
+/* Enhanced Carousel Styles for Smooth Transitions */
+.carousel-item .row {
+    display: flex;
+    justify-content: center;
+}
+.carousel-item .col-md-4 {
+    flex: 0 0 auto;
+    width: 33.333%;
+    max-width: 400px;
+}
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    background: none;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: var(--primary);
+    border-radius: 50%;
+    padding: 10px;
+}
+.carousel-indicators {
+    bottom: -50px;
+}
+.carousel-indicators button {
+    background-color:撰 var(--primary);
+    opacity: 0.5;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 5px;
+}
+.carousel-indicators .active {
+    opacity: 1;
+    background-color: var(--accent);
+}
+/* Smooth fade transition */
+.carousel-fade .carousel-item {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+.carousel-fade .carousel-item.active {
+    opacity: 1;
+}
+.carousel-inner {
+    overflow: hidden;
+}
+.feature-card {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+.carousel-item.active .feature-card {
+    animation: slideInCard 0.8s ease-out;
+}
+@keyframes slideInCard {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
