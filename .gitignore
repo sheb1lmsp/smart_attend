@@ -18,6 +18,7 @@ env/
 # Django media and static files
 media/
 staticfiles/
+static/
 
 # Specific media directories from your project
 media/faces/
