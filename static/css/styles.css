@@ -23,11 +23,6 @@ body {
     color: var(--text);
 }
 
-main {
-    flex: 1;
-    padding: 3rem 0;
-}
-
 .navbar {
     background: linear-gradient(135deg, var(--primary), var(--primary-dark));
     box-shadow: 0 8px 20px var(--shadow);
@@ -115,6 +110,7 @@ footer {
     border-bottom: none;
     position: relative;
     overflow: hidden;
+    text-align: center;
 }
 
 .card-header::before {
@@ -190,11 +186,11 @@ h1, h2, h3 {
 }
 
 h1 {
-    font-size: 2.5rem;
+    font-size: 2rem;
 }
 
 h2 {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
 }
 
 h3 {
@@ -227,6 +223,39 @@ h1:hover, h2:hover, h3:hover {
 @keyframes slideIn {
     from { transform: translateY(-40px); opacity: 0; }
     to { transform: translateY(0); opacity: 1; }
+}
+
+.fade-in {
+    animation: fadeIn 1s ease-out;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(40px) scale(0.95); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: rgba(255, 255, 255, 0.15);
+    backdrop-filter: blur(10px);
+    border-radius: 20px;
+    z-index: -1;
+    transition: opacity 0.4s ease;
+}
+
+.card:hover::before {
+    opacity: 0.9;
+}
+
+.card a {
+    transition: color 0.4s ease, transform 0.4s ease;
+}
+
+.card a:hover {
+    color: var(--primary);
+    transform: translateX(6px);
 }
 
 .hero-section {
@@ -286,6 +315,81 @@ h1:hover, h2:hover, h3:hover {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
 }
 
+.carousel-item .row {
+    display: flex;
+    justify-content: center;
+}
+
+.carousel-item .col-md-4 {
+    flex: 0 0 auto;
+    width: 33.333%;
+    max-width: 400px;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+    width: 5%;
+    background: none;
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+    opacity: 1;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+    background-color: var(--primary);
+    border-radius: 50%;
+    padding: 10px;
+}
+
+.carousel-indicators {
+    bottom: -50px;
+}
+
+.carousel-indicators button {
+    background-color: var(--primary);
+    opacity: 0.5;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin: 0 5px;
+}
+
+.carousel-indicators .active {
+    opacity: 1;
+    background-color: var(--accent);
+}
+
+.carousel-fade .carousel-item {
+    opacity: 0;
+    transition: opacity 0.8s ease-in-out;
+}
+
+.carousel-fade .carousel-item.active {
+    opacity: 1;
+}
+
+.carousel-inner {
+    overflow: hidden;
+}
+
+.feature-card {
+    transition: transform 0.5s ease, opacity 0.5s ease;
+}
+
+.carousel-item.active .feature-card {
+    animation: slideInCard 0.8s ease-out;
+}
+
+@keyframes slideInCard {
+    from { transform: translateY(20px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+}
+
 @media (max-width: 768px) {
     .container {
         padding: 2rem 1.5rem;
@@ -311,15 +415,15 @@ h1:hover, h2:hover, h3:hover {
     }
 
     h1 {
-        font-size: 2rem;
+        font-size: 1.75rem;
     }
 
     h2 {
-        font-size: 1.5rem;
+        font-size: 1.25rem;
     }
 
     h3 {
-        font-size: 1.25rem;
+        font-size: 1rem;
     }
 
     .hero-section {
@@ -337,101 +441,4 @@ h1:hover, h2:hover, h3:hover {
     .feature-card img {
         height: 150px;
     }
-}
-
-.fade-in {
-    animation: fadeIn 1s ease-out;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; transform: translateY(40px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
-}
-
-.card::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: blur(10px);
-    border-radius: 20px;
-    z-index: -1;
-    transition: opacity 0.4s ease;
-}
-
-.card:hover::before {
-    opacity: 0.9;
-}
-
-.card a {
-    transition: color 0.4s ease, transform 0.4s ease;
-}
-
-.card a:hover {
-    color: var(--primary);
-    transform: translateX(6px);
-}
-
-/* Enhanced Carousel Styles for Smooth Transitions */
-.carousel-item .row {
-    display: flex;
-    justify-content: center;
-}
-.carousel-item .col-md-4 {
-    flex: 0 0 auto;
-    width: 33.333%;
-    max-width: 400px;
-}
-.carousel-control-prev,
-.carousel-control-next {
-    width: 5%;
-    background: none;
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-}
-.carousel-control-prev:hover,
-.carousel-control-next:hover {
-    opacity: 1;
-}
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-    background-color: var(--primary);
-    border-radius: 50%;
-    padding: 10px;
-}
-.carousel-indicators {
-    bottom: -50px;
-}
-.carousel-indicators button {
-    background-color:撰 var(--primary);
-    opacity: 0.5;
-    width: 10px;
-    height: 10px;
-    border-radius: 50%;
-    margin: 0 5px;
-}
-.carousel-indicators .active {
-    opacity: 1;
-    background-color: var(--accent);
-}
-/* Smooth fade transition */
-.carousel-fade .carousel-item {
-    opacity: 0;
-    transition: opacity 0.8s ease-in-out;
-}
-.carousel-fade .carousel-item.active {
-    opacity: 1;
-}
-.carousel-inner {
-    overflow: hidden;
-}
-.feature-card {
-    transition: transform 0.5s ease, opacity 0.5s ease;
-}
-.carousel-item.active .feature-card {
-    animation: slideInCard 0.8s ease-out;
-}
-@keyframes slideInCard {
-    from { transform: translateY(20px); opacity: 0; }
-    to { transform: translateY(0); opacity: 1; }
 }
