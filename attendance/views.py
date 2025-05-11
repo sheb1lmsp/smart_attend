@@ -52,72 +52,41 @@ def student_dashboard(request):
     present_classes = attendance_reports.filter(present_or_not=True).count()
     attendance_percentage = (present_classes / total_classes * 100) if total_classes > 0 else 0
 
-    # Subject-wise attendance statistics
-    subject_stats = []
-    for subject in subjects:
-        subject_reports = AttendanceReport.objects.filter(
-            student=student,
-            attendance__in=Attendance.objects.filter(
-                class_batch=class_batch,
-                subject=subject
-            )
-        )
-        total = subject_reports.count()
-        present = subject_reports.filter(present_or_not=True).count()
-        percentage = (present / total * 100) if total > 0 else 0
-        subject_stats.append({
-            'subject': subject,
-            'total': total,
-            'present': present,
-            'percentage': round(percentage, 2)
-        })
-
-    # Get distinct periods with display names
-    distinct_periods = []
-    period_values = Attendance.objects.filter(
+    # Get attendance sessions for the class (date and period)
+    attendance_sessions = Attendance.objects.filter(
         class_batch=class_batch,
         attendance_report__student=student
-    ).values('period').distinct()
-    for period in period_values:
-        temp_attendance = Attendance(period=period['period'])
-        distinct_periods.append({
-            'value': period['period'],
-            'display': temp_attendance.get_period_display()
-        })
+    ).select_related('subject').order_by('date', 'period')
 
-    # Prepare attendance data for each subject and period
+    # Prepare attendance data for each subject and session
     attendance_data = []
     for subject in subjects:
         subject_data = {
             'subject': subject,
-            'periods': [],
+            'sessions': [],
             'total': 0,
             'present': 0,
             'percentage': 0
         }
-        for period in distinct_periods:
-            period_value = period['value']
-            attendance_record = Attendance.objects.filter(
-                class_batch=class_batch,
-                subject=subject,
-                period=period_value,
-                attendance_report__student=student
-            ).first()
-            is_present = False
-            if attendance_record:
-                report = attendance_record.attendance_report.filter(student=student).first()
-                is_present = report.present_or_not if report else False
-            subject_data['periods'].append({
-                'period': period_value,
-                'present': is_present
-            })
-        # Copy stats from subject_stats to avoid recomputation
-        for stat in subject_stats:
-            if stat['subject'] == subject:
-                subject_data['total'] = stat['total']
-                subject_data['present'] = stat['present']
-                subject_data['percentage'] = stat['percentage']
-                break
+        for session in attendance_sessions:
+            if session.subject == subject:  # Only include sessions for the current subject
+                attendance_record = AttendanceReport.objects.filter(
+                    attendance=session,
+                    student=student
+                ).first()
+                is_present = attendance_record.present_or_not if attendance_record else False
+                subject_data['sessions'].append({
+                    'session': session,
+                    'present': is_present
+                })
+                subject_data['total'] += 1
+                if is_present:
+                    subject_data['present'] += 1
+        subject_data['percentage'] = (
+            (subject_data['present'] / subject_data['total'] * 100)
+            if subject_data['total'] > 0 else 0
+        )
+        subject_data['percentage'] = round(subject_data['percentage'], 2)
         attendance_data.append(subject_data)
 
     context = {
@@ -127,8 +96,7 @@ def student_dashboard(request):
         'attendance_percentage': round(attendance_percentage, 2),
         'total_classes': total_classes,
         'present_classes': present_classes,
-        'subject_stats': subject_stats,
-        'distinct_periods': distinct_periods,
+        'attendance_sessions': attendance_sessions,
         'attendance_data': attendance_data,
     }
 
@@ -183,7 +151,7 @@ def subject_class_detail(request, subject_id, class_id):
         taken_by=teacher,
         subject=subject,
         class_batch=class_batch
-    ).select_related('class_batch').order_by('date', 'period')[:10]
+    ).select_related('class_batch').order_by('date', 'period')
 
     # Get attendance data
     attendance_data = []
