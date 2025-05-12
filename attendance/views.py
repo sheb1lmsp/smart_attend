@@ -21,6 +21,7 @@ from django.core.exceptions import ValidationError
 from twilio.rest import Client
 from twilio.base.exceptions import TwilioRestException
 from dotenv import load_dotenv
+import re
 
 
 # Load environment variables
@@ -202,6 +203,17 @@ def mark_attendance(request, subject_id, class_id):
         class_batch = Class.objects.get(id=class_id)
         subject = Subject.objects.get(id=subject_id)
 
+        # Sanitize batch name
+        batch_name = re.sub(r'[^\w\-]', '_', str(class_batch))
+
+        # Define class-specific directories
+        class_upload_dir = UPLOAD_DIR / batch_name
+        class_faces_dir = FACES_DIR / batch_name
+        class_models_dir = MODELS_DIR / batch_name
+        os.makedirs(class_upload_dir, exist_ok=True)
+        os.makedirs(class_faces_dir, exist_ok=True)
+        os.makedirs(class_models_dir, exist_ok=True)
+
         # Verify teacher is authorized
         if not (class_batch in teacher.classes.all() and subject in teacher.subjects.all()):
             messages.error(request, "You are not authorized to mark attendance for this class or subject.")
@@ -228,8 +240,8 @@ def mark_attendance(request, subject_id, class_id):
                 return redirect('subject_class_detail', subject_id=subject_id, class_id=class_id)
 
             # Load the trained model
-            model_path = MODELS_DIR / str(class_batch) / f"{str(class_batch)}.pth"
-            class_names_path = MODELS_DIR / str(class_batch) / f"{str(class_batch)}_class_names.txt"
+            model_path = class_models_dir / f"{batch_name}.pth"
+            class_names_path = class_models_dir / f"{batch_name}_class_names.txt"
 
             if not model_path.exists() or not class_names_path.exists():
                 messages.error(request, "Model or class names file not found.")
@@ -254,12 +266,12 @@ def mark_attendance(request, subject_id, class_id):
                     filename = fs.save('group_photo.jpg', image)
                     temp_image_path = Path(temp_dir) / filename
 
-                    # Define output path for processed image
-                    output_filename = f"processed_{class_batch}_{current_date}_{period}.jpg"
-                    output_image_path = UPLOAD_DIR / output_filename
+                    # Define output path for processed image in class-specific directory
+                    output_filename = f"processed_{batch_name}_{current_date}_{period}.jpg"
+                    output_image_path = class_upload_dir / output_filename
 
                     # Run face recognition and save processed image
-                    attendance_results = recognition(temp_image_path, FACES_DIR, class_names, model, output_image_path)
+                    attendance_results = recognition(temp_image_path, class_faces_dir, class_names, model, output_image_path)
 
                     # Create Attendance record with current date
                     attendance = Attendance.objects.create(
@@ -304,7 +316,7 @@ def mark_attendance(request, subject_id, class_id):
                                 messages.error(request, f"Failed to send SMS to {student.parent_name}: {str(e)}")
 
                     # Generate URL for processed image
-                    processed_image_url = f"{settings.MEDIA_URL}uploads/{output_filename}"
+                    processed_image_url = output_filename  # Just the filename, as batch_name is added in template
 
                     messages.success(request, "Attendance marked successfully.")
                     # Render the same template with the processed image
@@ -314,6 +326,7 @@ def mark_attendance(request, subject_id, class_id):
                         'periods': Attendance.CHOICES,
                         'current_date': current_date,
                         'processed_image_url': processed_image_url,
+                        'batch_name': batch_name,  # Pass batch_name for URL construction
                     }
                     return render(request, 'mark_attendance.html', context)
 
@@ -333,5 +346,6 @@ def mark_attendance(request, subject_id, class_id):
         'subject': subject,
         'periods': periods,
         'current_date': timezone.now().date(),
+        'batch_name': batch_name,  # Pass batch_name for consistency
     }
     return render(request, 'mark_attendance.html', context)

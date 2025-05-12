@@ -54,11 +54,11 @@
                         <div class="face-container">
                             {% for face in face_images %}
                                 <div class="face-item fade-in" style="animation-delay: {{ forloop.counter0|add:0.1 }}s;">
-                                    <img src="{{ MEDIA_URL }}faces/{{ face }}" alt="Face" width="150" height="150">
+                                    <img src="{{ MEDIA_URL }}faces/{{ batch_name }}/{{ face }}" alt="Face" width="150" height="150">
                                     <select name="face_{{ face }}" class="form-select student-select" data-face="{{ face }}">
                                         <option value=""></option>
                                         {% for name in student_names %}
-                                            <option value="{{ name }}" {% if selected_labels.face == name %}selected{% endif %}>{{ name }}</option>
+                                            <option value="{{ name }}" {% if selected_labels_map.face == name %}selected{% endif %}>{{ name }}</option>
                                         {% endfor %}
                                     </select>
                                     <button type="button" class="clear-btn"><i class="bi bi-x-circle me-1"></i> Clear</button>

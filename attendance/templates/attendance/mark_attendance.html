@@ -47,7 +47,7 @@
                     {% if processed_image_url %}
                         <div class="processed-image text-center fade-in" style="animation-delay: 0.2s;">
                             <h3>Processed Attendance Image</h3>
-                            <img src="{{ processed_image_url }}" alt="Processed Attendance Image" class="img-fluid">
+                            <img src="{{ MEDIA_URL }}uploads/{{ batch_name }}/{{ processed_image_url }}" alt="Processed Attendance Image" class="img-fluid">
                         </div>
                     {% else %}
                         <form method="post" enctype="multipart/form-data" class="fade-in" style="animation-delay: 0.2s;">
