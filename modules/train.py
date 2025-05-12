@@ -28,7 +28,7 @@ def train(dep_batch, train_dir):
         loss_fn = loss_fn,
         optimizer = optimizer,
         device = device,
-        epochs = 5
+        epochs = 100
     )
 
     utils.save_model(model, class_names, dep_batch)
