@@ -81,13 +81,5 @@ Smart Attend is an AI-driven attendance management system designed to streamline
 ## Conclusion
 Smart Attend revolutionizes attendance management with high accuracy, reduced errors, and improved efficiency. It ensures secure, scalable, and user-friendly operations, laying the foundation for smarter educational systems. Future improvements will focus on real-time processing and broader adaptability.
 
-## Screenshots
-(Screenshots of the application can be found in the `screenshots/` directory, showcasing the Admin, Teacher, and Student dashboards, as well as the attendance marking process.)
-
-## Acknowledgments
-- Submitted by: Mohammed Shebil P (Register Number: U03EC22S0024)
-- Under the Guidance of: Prof. Naga Suma CV
-- Institution: Harsha Institute of Management Studies, Bachelor of Computer Applications (BCA), 6th Semester
-
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
